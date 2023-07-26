@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities.Identity
 {
-    public class BaseRoleIdentity : IdentityRole<int>
+    public class BaseRoleIdentity : IdentityRole<int>, IEntity<int>
     {
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime LastModifiedDate { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }
