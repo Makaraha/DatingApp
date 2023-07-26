@@ -5,9 +5,9 @@ namespace Domain.Entities.Identity
 {
     public class BaseRoleIdentity : IdentityRole<int>, IEntity<int>
     {
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDateUtc { get; set; }
 
-        public DateTime LastModifiedDate { get; set; }
+        public DateTime LastModifiedDateUtc { get; set; }
 
         public bool IsDeleted { get; set; }
     }

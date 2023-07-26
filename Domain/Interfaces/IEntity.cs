@@ -11,9 +11,9 @@ namespace Domain.Interfaces
     {
         TKey Id { get; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDateUtc { get; set; }
 
-        public DateTime LastModifiedDate { get; set; }
+        public DateTime LastModifiedDateUtc { get; set; }
 
         public bool IsDeleted { get; set; }
     }

@@ -72,7 +72,7 @@ namespace Domain.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedDateUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -96,7 +96,7 @@ namespace Domain.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastModifiedDate")
+                    b.Property<DateTime>("LastModifiedDateUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")

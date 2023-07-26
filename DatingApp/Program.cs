@@ -11,6 +11,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.RegisterConnectionString(builder.Configuration);
 
+builder.Services.RegisterRepositories();
+builder.Services.RegisterServices();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
