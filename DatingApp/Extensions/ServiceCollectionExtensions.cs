@@ -22,6 +22,12 @@ namespace DatingApp.Extensions
             serviceCollection.AddIdentity<User, Role>(x =>
                 {
                     x.User.RequireUniqueEmail = true;
+
+                    x.Password.RequireDigit = false;
+                    x.Password.RequireLowercase = false;
+                    x.Password.RequireNonAlphanumeric = false;
+                    x.Password.RequireUppercase = false;
+                    x.Password.RequiredLength = 1;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }

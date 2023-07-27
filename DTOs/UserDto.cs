@@ -1,4 +1,5 @@
-﻿using Common.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using Common.Enums;
 using Common.Interfaces;
 
 namespace DTOs
@@ -17,9 +18,13 @@ namespace DTOs
 
                 public string LastName { get; init; }
 
-                public string Gender { get; init; }
+                public string Email { get; init; }
 
-                public string SearchingGender { get; init; }
+                public string PhoneNumber { get; init; }
+
+                public GenderEnum Gender { get; init; }
+
+                public GenderEnum SearchingGender { get; init; }
 
                 public string City { get; init; }
 
@@ -50,13 +55,23 @@ namespace DTOs
         {
             public class Add
             {
+                [Required, MaxLength(32)]
                 public string UserName { get; init; }
 
+                [Required]
                 public string Password { get; init; }
 
+                [MaxLength(32)]
                 public string FirstName { get; init; }
 
+                [MaxLength(32)]
                 public string LastName { get; init; }
+
+                [Required, EmailAddress]
+                public string Email { get; init; }
+
+                [Required, Phone]
+                public string PhoneNumber { get; init; }
 
                 public GenderEnum Gender { get; init; }
 
@@ -71,19 +86,21 @@ namespace DTOs
 
             public class Update : IIdHas<int>
             {
+                [Required]
                 public int Id { get; init; }
 
+                [Required, MaxLength(32)]
                 public string UserName { get; init; }
 
-                public string Password { get; init; }
-
+                [MaxLength(32)]
                 public string FirstName { get; init; }
 
+                [MaxLength(32)]
                 public string LastName { get; init; }
 
-                public string Gender { get; init; }
+                public GenderEnum Gender { get; init; }
 
-                public string SearchingGender { get; init; }
+                public GenderEnum SearchingGender { get; init; }
 
                 public string City { get; init; }
 
@@ -94,15 +111,18 @@ namespace DTOs
 
             public class UpdateMe
             {
+                [Required, MaxLength(32)]
                 public string UserName { get; init; }
 
+                [MaxLength(32)]
                 public string FirstName { get; init; }
 
+                [MaxLength(32)]
                 public string LastName { get; init; }
 
-                public string Gender { get; init; }
+                public GenderEnum Gender { get; init; }
 
-                public string SearchingGender { get; init; }
+                public GenderEnum SearchingGender { get; init; }
 
                 public string City { get; init; }
 

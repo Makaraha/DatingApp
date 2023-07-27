@@ -15,6 +15,11 @@ namespace DatingApp.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Create user
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>User id</returns>
         [HttpPost, Route("user")]
         public async Task<int> AddUserAsync(UserDto.Request.Add dto)
         {

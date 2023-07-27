@@ -10,7 +10,7 @@ namespace Services.IdentityServices
 {
     public class UserService : IUserService<int>
     {
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
         public UserService(UserManager<User> userManager)
         {
@@ -24,8 +24,9 @@ namespace Services.IdentityServices
             var user = dto.Adapt<User>(cnf);
 
             BeforeAdd(user);
+
             CheckIdentityResult(await _userManager.CreateAsync(user));
-            CheckIdentityResult(await _userManager.AddPasswordAsync(user, password));
+            await SetPasswordOrDeleteAsync(user, password);
 
             return user.Id;
         }
@@ -83,6 +84,19 @@ namespace Services.IdentityServices
         {
             if (!result.Succeeded)
                 throw new Exception(String.Join('\n', result.Errors));
+        }
+
+        protected async Task SetPasswordOrDeleteAsync(User user, string password)
+        {
+            try
+            {
+                CheckIdentityResult(await _userManager.AddPasswordAsync(user, password));
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
         }
     }
 }
