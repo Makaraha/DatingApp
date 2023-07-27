@@ -1,7 +1,10 @@
-﻿using Domain.EF.Context;
+﻿using System.Text;
+using Domain.EF.Context;
 using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using Repository.IRepository;
 using Repository.Repositories;
 using Services.IdentityServices;
@@ -34,12 +37,35 @@ namespace DatingApp.Extensions
 
         public static void RegisterRepositories(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IRepository<User, int>, BaseRepository<User, int>>();
         }
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IUserService<int>, UserService>();
+            serviceCollection.AddTransient<IUserService<User, int>, UserService>();
+        }
+
+        public static void RegisterJWT(this IServiceCollection serviceCollection, IConfiguration configuration)
+        {
+            var key = Encoding.UTF8.GetBytes(configuration["JWT:Key"]);
+
+            serviceCollection.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["JWT:Issuer"],
+                    ValidAudience = configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                };
+            });
         }
     }
 }

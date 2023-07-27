@@ -9,9 +9,9 @@ namespace DatingApp.Controllers
 {
     public class UserController : BaseController
     {
-        private IUserService<int> _userService;
+        private IUserService<User, int> _userService;
 
-        public UserController(IUserService<int> userService)
+        public UserController(IUserService<User, int> userService)
         {
             _userService = userService;
         }

@@ -4,7 +4,7 @@ using Mapster;
 
 namespace Services.IdentityServices
 {
-    public interface IUserService<TKey>
+    public interface IUserService<TUser, TKey>
         where TKey : IEquatable<TKey>
     {
         Task<TKey> AddUserAsync<TDto>(TDto dto, string password, TypeAdapterConfig? cnf = null);

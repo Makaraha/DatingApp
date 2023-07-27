@@ -8,7 +8,7 @@ using Services.Services;
 
 namespace Services.IdentityServices
 {
-    public class UserService : IUserService<int>
+    public class UserService : IUserService<User, int>
     {
         private readonly UserManager<User> _userManager;
 
