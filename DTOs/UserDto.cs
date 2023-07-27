@@ -1,4 +1,5 @@
 ﻿using Common.Enums;
+using Common.Interfaces;
 
 namespace DTOs
 {
@@ -68,7 +69,7 @@ namespace DTOs
                 public DateTime DateOfBirth { get; init; }
             }
 
-            public class Update
+            public class Update : IIdHas<int>
             {
                 public int Id { get; init; }
 

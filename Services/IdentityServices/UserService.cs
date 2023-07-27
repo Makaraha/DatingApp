@@ -21,10 +21,10 @@ namespace Services.IdentityServices
         {
             cnf = GetConfig(cnf);
 
-            var user = dto.Adapt<User>();
+            var user = dto.Adapt<User>(cnf);
 
-            CheckIdentityResult(await _userManager.CreateAsync(user));
             BeforeAdd(user);
+            CheckIdentityResult(await _userManager.CreateAsync(user));
             CheckIdentityResult(await _userManager.AddPasswordAsync(user, password));
 
             return user.Id;
