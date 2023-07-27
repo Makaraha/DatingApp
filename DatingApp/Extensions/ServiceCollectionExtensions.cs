@@ -3,8 +3,8 @@ using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 using Repository.Repositories;
+using Services.IdentityServices;
 using Services.IService;
-using Services.Services;
 
 namespace DatingApp.Extensions
 {
@@ -16,6 +16,15 @@ namespace DatingApp.Extensions
                 x.UseSqlServer(configuration.GetConnectionString("Default")));
         }
 
+        public static void RegisterIdentity(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddIdentity<User, Role>(x =>
+                {
+                    x.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+        }
+
         public static void RegisterRepositories(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IRepository<User, int>, BaseRepository<User, int>>();
@@ -23,7 +32,7 @@ namespace DatingApp.Extensions
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IService<User, int>, BaseService<User, int>>();
+            serviceCollection.AddTransient<IService<User, int>, UserService>();
         }
     }
 }

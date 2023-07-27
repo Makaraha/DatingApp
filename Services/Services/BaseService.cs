@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using Common.Exceptions.ServerExceptions;
+﻿using Common.Exceptions.ServerExceptions;
 using Common.Interfaces;
 using Domain.Interfaces;
 using Mapster;
@@ -19,7 +18,7 @@ namespace Services.Services
             Repository = repository;
         }
 
-        public async Task<TDto?> GetByIdAsync<TDto>(TKey id, TypeAdapterConfig? cnf = null)
+        public virtual async Task<TDto?> GetByIdAsync<TDto>(TKey id, TypeAdapterConfig? cnf = null)
         {
             cnf = GetConfig(cnf);
 
@@ -29,7 +28,7 @@ namespace Services.Services
             return entity.Adapt<TDto>(cnf);
         }
 
-        public async Task<TKey> AddAsync<TDto>(TDto dto, TypeAdapterConfig? cnf = null)
+        public virtual async Task<TKey> AddAsync<TDto>(TDto dto, TypeAdapterConfig? cnf = null)
         {
             cnf = GetConfig(cnf);
 
@@ -42,7 +41,7 @@ namespace Services.Services
             return entity.Id;
         }
 
-        public async Task Update<TDto>(TDto dto, TypeAdapterConfig? cnf = null)
+        public virtual async Task Update<TDto>(TDto dto, TypeAdapterConfig? cnf = null)
             where TDto : IIdHas<TKey>
         {
             cnf = GetConfig(cnf);
@@ -52,12 +51,11 @@ namespace Services.Services
 
             BeforeUpdate(entity);
             dto.Adapt(entity, cnf);
-            Repository.Update(entity);
 
             await Repository.SaveChangesAsync();
         }
 
-        public async Task Delete(TKey id)
+        public virtual async Task Delete(TKey id)
         {
             var entity = await Repository.GetByIdAsync(id);
             CheckEntity(entity);
@@ -66,7 +64,7 @@ namespace Services.Services
             await Repository.SaveChangesAsync();
         }
 
-        public async Task Remove(TKey id)
+        public virtual async Task Remove(TKey id)
         {
             var entity = await Repository.GetByIdAsync(id);
             CheckEntity(entity);

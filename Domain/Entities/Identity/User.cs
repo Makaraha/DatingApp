@@ -11,6 +11,9 @@ namespace Domain.Entities.Identity
         [MaxLength(64)]
         public string LastName { get; set; }
 
+        [MaxLength(64)]
+        public string City { get; set; }
+
         public GenderEnum Gender { get; set; }
 
         public GenderEnum SearchingGender { get; set; }

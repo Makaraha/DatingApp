@@ -18,6 +18,8 @@
 
                 public string SearchingGender { get; init; }
 
+                public string City { get; init; }
+
                 public string About { get; init; }
 
                 public DateTime DateOfBirth { get; init; }
@@ -28,11 +30,83 @@
 
                 public bool IsDeleted { get; init; }
             }
+
+            public record List
+            {
+                public int Id { get; init; }
+
+                public string UserName { get; init; }
+
+                public string About { get; init; }
+
+                public string City { get; init; }
+            }
         }
 
         public static class Request
         {
+            public class Add
+            {
+                public string UserName { get; init; }
 
+                public string Password { get; init; }
+
+                public string FirstName { get; init; }
+
+                public string LastName { get; init; }
+
+                public string Gender { get; init; }
+
+                public string SearchingGender { get; init; }
+
+                public string City { get; init; }
+
+                public string About { get; init; }
+
+                public DateTime DateOfBirth { get; init; }
+            }
+
+            public class Update
+            {
+                public int Id { get; init; }
+
+                public string UserName { get; init; }
+
+                public string Password { get; init; }
+
+                public string FirstName { get; init; }
+
+                public string LastName { get; init; }
+
+                public string Gender { get; init; }
+
+                public string SearchingGender { get; init; }
+
+                public string City { get; init; }
+
+                public string About { get; init; }
+
+                public DateTime DateOfBirth { get; init; }
+            }
+
+            public class UpdateMe
+            {
+                public string UserName { get; init; }
+
+                public string FirstName { get; init; }
+
+                public string LastName { get; init; }
+
+                public string Gender { get; init; }
+
+                public string SearchingGender { get; init; }
+
+                public string City { get; init; }
+
+                public string About { get; init; }
+
+                public DateTime DateOfBirth { get; init; }
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ builder.Services.RegisterConnectionString(builder.Configuration);
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
+builder.Services.RegisterIdentity();
 
 var app = builder.Build();
 
@@ -25,6 +26,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
