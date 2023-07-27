@@ -10,5 +10,11 @@ namespace Common.Exceptions.ServerExceptions
         {
             StatusCode = statusCode;
         }
+
+        public BaseServerException(HttpStatusCode statusCode, string message, Exception innerException) 
+            : base(message, innerException)
+        {
+            StatusCode = statusCode;
+        }
     }
 }

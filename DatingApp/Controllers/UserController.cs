@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Identity;
+﻿using Common.Exceptions.ServerExceptions;
+using Domain.Entities.Identity;
 using DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Services.IdentityServices;
