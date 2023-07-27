@@ -1,4 +1,6 @@
-﻿namespace DTOs
+﻿using Common.Enums;
+
+namespace DTOs
 {
     public static class UserDto
     {
@@ -55,9 +57,9 @@
 
                 public string LastName { get; init; }
 
-                public string Gender { get; init; }
+                public GenderEnum Gender { get; init; }
 
-                public string SearchingGender { get; init; }
+                public GenderEnum SearchingGender { get; init; }
 
                 public string City { get; init; }
 

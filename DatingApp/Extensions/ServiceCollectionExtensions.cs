@@ -1,6 +1,7 @@
 ﻿using Domain.EF.Context;
 using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Repository.IRepository;
 using Repository.Repositories;
 using Services.IdentityServices;
@@ -32,7 +33,7 @@ namespace DatingApp.Extensions
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<IService<User, int>, UserService>();
+            serviceCollection.AddTransient<IUserService<int>, UserService>();
         }
     }
 }

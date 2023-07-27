@@ -8,7 +8,7 @@ using Services.Services;
 
 namespace Services.IdentityServices
 {
-    public class UserService : IUserService
+    public class UserService : IUserService<int>
     {
         private UserManager<User> _userManager;
 
@@ -17,7 +17,7 @@ namespace Services.IdentityServices
             _userManager = userManager;
         }
 
-        public async Task AddUserAsync<TDto>(TDto dto, string password, TypeAdapterConfig? cnf = null)
+        public async Task<int> AddUserAsync<TDto>(TDto dto, string password, TypeAdapterConfig? cnf = null)
         {
             cnf = GetConfig(cnf);
 
@@ -26,6 +26,8 @@ namespace Services.IdentityServices
             CheckIdentityResult(await _userManager.CreateAsync(user));
             BeforeAdd(user);
             CheckIdentityResult(await _userManager.AddPasswordAsync(user, password));
+
+            return user.Id;
         }
 
         public async Task UpdateUserAsync<TDto>(TDto dto, TypeAdapterConfig? cnf = null)

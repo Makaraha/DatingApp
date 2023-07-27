@@ -1,17 +1,24 @@
 ﻿using Domain.Entities.Identity;
+using DTOs;
+using Microsoft.AspNetCore.Mvc;
+using Services.IdentityServices;
 using Services.IService;
 
 namespace DatingApp.Controllers
 {
     public class UserController : BaseController
     {
-        private IService<User, int> _userService;
+        private IUserService<int> _userService;
 
-        public UserController(IService<User, int> userService)
+        public UserController(IUserService<int> userService)
         {
             _userService = userService;
         }
 
-        public async Task<>
+        [HttpPost, Route("user")]
+        public async Task<int> AddUserAsync(UserDto.Request.Add dto)
+        {
+            return await _userService.AddUserAsync(dto, dto.Password);
+        }
     }
 }
