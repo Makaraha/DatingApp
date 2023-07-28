@@ -21,28 +21,22 @@ namespace DatingApp.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns>User id</returns>
-        [HttpPost, Route("user")]
+        [HttpPost, Route("user"), AllowAnonymous]
         public async Task<int> AddUserAsync(UserDto.Request.Add dto)
         {
             return await _userService.AddUserAsync(dto, dto.Password);
         }
 
-        [HttpPut, Route("user")]
+        [HttpPut, Route("user"), Authorize(Roles = "admin")]
         public async Task UpdateUserAsync(UserDto.Request.Update dto)
         {
             await _userService.UpdateUserAsync(dto);
         }
 
-        [HttpPatch, Route("user/remove/{id}")]
+        [HttpPatch, Route("user/remove/{id}"), Authorize(Roles = "admin")]
         public async Task RemoveUserAsync(int id)
         {
             await _userService.RemoveUserAsync(id);
-        }
-
-        [HttpDelete, Route("user/delete/{id}")]
-        public async Task DeleteUserAsync(int id)
-        {
-            await _userService.DeleteUserAsync(id);
         }
     }
 }
