@@ -83,7 +83,7 @@ namespace Services.IdentityServices
         protected void CheckIdentityResult(IdentityResult result)
         {
             if (!result.Succeeded)
-                throw new Exception(String.Join('\n', result.Errors));
+                throw new BadRequestException(String.Join('\n', result.Errors.Select(x => x.Description)));
         }
 
         protected async Task SetPasswordOrDeleteAsync(User user, string password)

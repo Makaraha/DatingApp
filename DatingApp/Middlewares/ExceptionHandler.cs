@@ -1,4 +1,6 @@
-﻿using Azure;
+﻿using System.Net;
+using System.Text.Json;
+using Azure;
 using Common.Exceptions.ServerExceptions;
 
 namespace DatingApp.Middlewares
@@ -33,7 +35,7 @@ namespace DatingApp.Middlewares
         private async Task ExecuteExceptionAsync(HttpContext context, BaseServerException exception)
         {
             var result = Results.Problem(
-                title: "Что-то пошло не так",
+                title: exception.StatusCode.ToString(),
                 detail: exception.Message,
                 statusCode: (int)exception.StatusCode);
 

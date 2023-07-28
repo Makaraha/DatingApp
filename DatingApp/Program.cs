@@ -1,5 +1,6 @@
 using DatingApp.Extensions;
 using DatingApp.Middlewares;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+
+builder.Services.RegisterSwagger();
 builder.Services.RegisterConnectionString(builder.Configuration);
 
 builder.Services.RegisterRepositories();
@@ -29,6 +31,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandler>();
 
 app.UseHttpsRedirection();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseAuthentication();
 app.UseAuthorization();

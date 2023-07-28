@@ -1,10 +1,12 @@
 ﻿using Domain.Entities.Identity;
 using DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.IdentityServices;
 
 namespace DatingApp.Controllers
 {
+    [Authorize]
     public class UserController : BaseController
     {
         private IUserService<User, int> _userService;
