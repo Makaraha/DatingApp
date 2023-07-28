@@ -15,6 +15,7 @@ builder.Services.RegisterConnectionString(builder.Configuration);
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
 builder.Services.RegisterIdentity();
+builder.Services.RegisterJWT(builder.Configuration);
 
 var app = builder.Build();
 

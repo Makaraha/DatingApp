@@ -1,14 +1,12 @@
-﻿using System.Text;
-using Domain.EF.Context;
+﻿using Domain.EF.Context;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+using Services.IdentityServices;
+using System.Text;
 using Repository.IRepository;
 using Repository.Repositories;
-using Services.IdentityServices;
-using Services.IService;
 
 namespace DatingApp.Extensions
 {
@@ -37,11 +35,13 @@ namespace DatingApp.Extensions
 
         public static void RegisterRepositories(this IServiceCollection serviceCollection)
         {
+            serviceCollection.AddTransient<IRepository<RefreshToken, int>, BaseRepository<RefreshToken, int>>();
         }
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IUserService<User, int>, UserService>();
+            serviceCollection.AddTransient<IJwtService, JwtService>();
         }
 
         public static void RegisterJWT(this IServiceCollection serviceCollection, IConfiguration configuration)

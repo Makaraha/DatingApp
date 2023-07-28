@@ -2,6 +2,7 @@
 using Common.Interfaces;
 using Domain.Interfaces;
 using Mapster;
+using Microsoft.Identity.Client;
 using Repository.IRepository;
 using Services.IService;
 
@@ -73,6 +74,12 @@ namespace Services.Services
             await Repository.SaveChangesAsync();
         }
 
+        public async Task RemoveRange(IEnumerable<TEntity> entities)
+        {
+            Repository.RemoveRange(entities);
+            await Repository.SaveChangesAsync();
+        }
+
         protected TypeAdapterConfig GetConfig(TypeAdapterConfig? cnf)
         {
             return cnf ?? TypeAdapterConfig.GlobalSettings;
@@ -87,6 +94,7 @@ namespace Services.Services
         protected void BeforeAdd(TEntity entity)
         {
             entity.CreatedDateUtc = DateTime.UtcNow;
+            entity.LastModifiedDateUtc = DateTime.UtcNow;
         }
 
         protected void BeforeUpdate(TEntity entity)

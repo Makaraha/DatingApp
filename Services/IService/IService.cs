@@ -18,5 +18,7 @@ namespace Services.IService
         Task Delete(TKey id);
 
         Task Remove(TKey id);
+
+        Task RemoveRange(IEnumerable<TEntity> entities);
     }
 }

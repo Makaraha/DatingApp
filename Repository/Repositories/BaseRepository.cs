@@ -1,4 +1,5 @@
 ﻿using Domain.EF.Context;
+using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
@@ -46,6 +47,11 @@ namespace Repository.Repositories
         public void Remove(TEntity entity)
         {
             entity.IsDeleted = true;
+        }
+
+        public void RemoveRange(IEnumerable<TEntity> entities)
+        {
+            _entities.RemoveRange(entities);
         }
 
         public async Task SaveChangesAsync()

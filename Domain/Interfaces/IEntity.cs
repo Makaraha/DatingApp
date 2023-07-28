@@ -15,6 +15,6 @@ namespace Domain.Interfaces
 
         public DateTime LastModifiedDateUtc { get; set; }
 
-        public bool IsDeleted { get; set; }
+        bool IsDeleted { get; set; }
     }
 }

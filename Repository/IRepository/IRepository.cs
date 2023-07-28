@@ -18,6 +18,8 @@ namespace Repository.IRepository
 
         void Remove(TEntity entity);
 
+        void RemoveRange(IEnumerable<TEntity> entities);
+
         Task SaveChangesAsync();
     }
 }
