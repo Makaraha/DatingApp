@@ -3,10 +3,11 @@ using Domain.Entities.Translations.Base;
 using Domain.Entities.Translations.ITranslation;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Repository.IRepository;
 
 namespace Repository.Repositories
 {
-    public class TranslationHasRepository<TEntity, TTranslation> : BaseRepository<TEntity, int>
+    public class TranslationHasRepository<TEntity, TTranslation> : BaseRepository<TEntity, int>, ITranslationHasRepository<TEntity, TTranslation>
         where TTranslation : class, ITranslation
         where TEntity : TranslationHasEntity<TTranslation>
     {

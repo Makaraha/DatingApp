@@ -1,7 +1,5 @@
-﻿using System.Security.Cryptography;
-using Domain.Entities.Translations.Base;
+﻿using Domain.Entities.Translations.Base;
 using Domain.Entities.Translations.ITranslation;
-using Domain.Interfaces;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
@@ -13,11 +11,17 @@ namespace Services.Services
         where TTranslation : class, ITranslation
         where TEntity : TranslationHasEntity<TTranslation>
     {
-        private ITranslationHasRepository<TEntity, TTranslation> _translationHasRepository;
+        private readonly ITranslationHasRepository<TEntity, TTranslation> _translationHasRepository;
 
         public TranslationHasService(ITranslationHasRepository<TEntity, TTranslation> repository) : base(repository)
         {
             _translationHasRepository = repository;    
+        }
+
+        public override Task<TDto?> GetByIdAsync<TDto>(int id, TypeAdapterConfig? cnf = null) where TDto : default
+        {
+            var query = Repository.GetAllAsQuery().Include(x => x.Translations);
+            return base.GetByIdAsync<TDto>(id, query, cnf);
         }
 
         public async Task AddOrEditTranslation<TDto>(TDto dto, int entityId, TypeAdapterConfig? cnf = null)

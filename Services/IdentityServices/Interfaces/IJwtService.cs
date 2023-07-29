@@ -1,6 +1,6 @@
 ﻿using Common;
 
-namespace Services.IdentityServices
+namespace Services.IdentityServices.Interfaces
 {
     public interface IJwtService
     {

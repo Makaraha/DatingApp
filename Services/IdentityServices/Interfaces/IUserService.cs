@@ -2,7 +2,7 @@
 using Domain.Entities.Identity;
 using Mapster;
 
-namespace Services.IdentityServices
+namespace Services.IdentityServices.Interfaces
 {
     public interface IUserService<TUser, TKey>
         where TKey : IEquatable<TKey>

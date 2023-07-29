@@ -2,7 +2,7 @@
 using DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.IdentityServices;
+using Services.IdentityServices.Interfaces;
 
 namespace DatingApp.Controllers
 {

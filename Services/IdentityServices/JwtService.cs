@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Repository.IRepository;
+using Services.IdentityServices.Interfaces;
 
 namespace Services.IdentityServices
 {

@@ -3,6 +3,7 @@ using Common.Interfaces;
 using Domain.Entities.Identity;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
+using Services.IdentityServices.Interfaces;
 
 namespace Services.IdentityServices
 {

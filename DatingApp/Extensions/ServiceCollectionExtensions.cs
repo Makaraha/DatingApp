@@ -5,9 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Services.IdentityServices;
 using System.Text;
+using Domain.Entities;
+using Domain.Entities.Translations;
 using Microsoft.OpenApi.Models;
 using Repository.IRepository;
 using Repository.Repositories;
+using Services.IdentityServices.Interfaces;
+using Services.IService;
+using Services.Services;
 
 namespace DatingApp.Extensions
 {
@@ -37,12 +42,14 @@ namespace DatingApp.Extensions
         public static void RegisterRepositories(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IRepository<RefreshToken, int>, BaseRepository<RefreshToken, int>>();
+            serviceCollection.AddTransient<ITranslationHasRepository<Gender, GenderTranslation>, TranslationHasRepository<Gender, GenderTranslation>>();
         }
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IUserService<User, int>, UserService>();
             serviceCollection.AddTransient<IJwtService, JwtService>();
+            serviceCollection.AddTransient<ITranslationHasService<Gender>, TranslationHasService<Gender, GenderTranslation>>();
         }
 
         public static void RegisterJWT(this IServiceCollection serviceCollection, IConfiguration configuration)
