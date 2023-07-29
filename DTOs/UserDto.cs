@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Common.Enums;
 using Common.Interfaces;
 
 namespace DTOs
@@ -22,9 +21,9 @@ namespace DTOs
 
                 public string PhoneNumber { get; init; }
 
-                public GenderEnum Gender { get; init; }
+                public GenderDto Gender { get; init; }
 
-                public GenderEnum SearchingGender { get; init; }
+                public GenderDto SearchingGender { get; init; }
 
                 public string City { get; init; }
 
@@ -73,9 +72,9 @@ namespace DTOs
                 [Required, Phone]
                 public string PhoneNumber { get; init; }
 
-                public GenderEnum Gender { get; init; }
+                public int GenderId { get; init; }
 
-                public GenderEnum SearchingGender { get; init; }
+                public int SearchingGenderId { get; init; }
 
                 public string City { get; init; }
 
@@ -98,9 +97,9 @@ namespace DTOs
                 [MaxLength(32)]
                 public string LastName { get; init; }
 
-                public GenderEnum Gender { get; init; }
+                public int GenderId { get; init; }
 
-                public GenderEnum SearchingGender { get; init; }
+                public int SearchingGenderId { get; init; }
 
                 public string City { get; init; }
 
@@ -120,9 +119,9 @@ namespace DTOs
                 [MaxLength(32)]
                 public string LastName { get; init; }
 
-                public GenderEnum Gender { get; init; }
+                public int GenderId { get; init; }
 
-                public GenderEnum SearchingGender { get; init; }
+                public int SearchingGenderId { get; init; }
 
                 public string City { get; init; }
 
@@ -130,6 +129,12 @@ namespace DTOs
 
                 public DateTime DateOfBirth { get; init; }
             }
+        }
+
+        public class GenderDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
         }
     }
 }

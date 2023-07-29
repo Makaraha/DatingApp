@@ -1,5 +1,5 @@
-﻿using Common.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Identity
 {
@@ -14,13 +14,19 @@ namespace Domain.Entities.Identity
         [MaxLength(64)]
         public string City { get; set; }
 
-        public GenderEnum Gender { get; set; }
+        [ForeignKey(nameof(Gender))]
+        public int GenderId { get; set; }
 
-        public GenderEnum SearchingGender { get; set; }
+        [ForeignKey(nameof(SearchingGender))]
+        public int SearchingGenderId { get; set; }
 
         [MaxLength(512)]
         public string About { get; set; }
 
         public DateTime DateOfBirth { get; set; }
+
+        public Gender Gender { get; set; }
+
+        public Gender SearchingGender { get; set; }
     }
 }

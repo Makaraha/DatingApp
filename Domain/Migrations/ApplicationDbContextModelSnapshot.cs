@@ -22,6 +22,50 @@ namespace Domain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Gender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDateUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedDateUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            LastModifiedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Male"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            LastModifiedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Female"
+                        });
+                });
+
             modelBuilder.Entity("Domain.Entities.Identity.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -97,7 +141,7 @@ namespace Domain.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "0a3365e2-a729-466b-abdc-5dcf577e01b2",
+                            ConcurrencyStamp = "9c2ee06d-98c1-4218-a7bb-637ca564f2e7",
                             CreatedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -149,7 +193,7 @@ namespace Domain.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<int>("Gender")
+                    b.Property<int>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -186,7 +230,7 @@ namespace Domain.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SearchingGender")
+                    b.Property<int>("SearchingGenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
@@ -201,6 +245,8 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GenderId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -208,6 +254,8 @@ namespace Domain.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("SearchingGenderId");
 
                     b.ToTable("AspNetUsers", (string)null);
 
@@ -218,25 +266,51 @@ namespace Domain.Migrations
                             About = "",
                             AccessFailedCount = 0,
                             City = "adminLand",
-                            ConcurrencyStamp = "5224cc50-df63-4cf7-92c6-b2ca454074d7",
+                            ConcurrencyStamp = "57d5f05c-f56c-44bc-a2ed-4605da862dd2",
                             CreatedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin",
                             EmailConfirmed = false,
                             FirstName = "",
-                            Gender = 0,
+                            GenderId = 1,
                             IsDeleted = false,
                             LastModifiedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP3VHNwQkpmXLlkeIkplcYSb+4lalk1QgDeWL38NOg5oC7SNIJsc4YPwIarsanH8Wg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN04s1l7ofidpdgb+J9LfG46KdKqgxbF4dw7QsP7o9ihyxHw6/CYk2GBf1B4W2jbZQ==",
                             PhoneNumberConfirmed = false,
-                            SearchingGender = 0,
+                            SearchingGenderId = 1,
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.Translations.GenderTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CultureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LocalizedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenderId");
+
+                    b.ToTable("GenderTranslations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -349,6 +423,32 @@ namespace Domain.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Identity.User", b =>
+                {
+                    b.HasOne("Domain.Entities.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Gender", "SearchingGender")
+                        .WithMany()
+                        .HasForeignKey("SearchingGenderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+
+                    b.Navigation("SearchingGender");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Translations.GenderTranslation", b =>
+                {
+                    b.HasOne("Domain.Entities.Gender", null)
+                        .WithMany("Translations")
+                        .HasForeignKey("GenderId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.Role", null)
@@ -398,6 +498,11 @@ namespace Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Gender", b =>
+                {
+                    b.Navigation("Translations");
                 });
 #pragma warning restore 612, 618
         }

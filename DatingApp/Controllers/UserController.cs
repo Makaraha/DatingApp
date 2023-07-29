@@ -9,7 +9,7 @@ namespace DatingApp.Controllers
     [Authorize]
     public class UserController : BaseController
     {
-        private IUserService<User, int> _userService;
+        private readonly IUserService<User, int> _userService;
 
         public UserController(IUserService<User, int> userService)
         {

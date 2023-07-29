@@ -2,7 +2,7 @@
 using Common.Interfaces;
 using Domain.Interfaces;
 using Mapster;
-using Microsoft.Identity.Client;
+using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
 using Services.IService;
 
@@ -19,11 +19,32 @@ namespace Services.Services
             Repository = repository;
         }
 
-        public virtual async Task<TDto?> GetByIdAsync<TDto>(TKey id, TypeAdapterConfig? cnf = null)
+        public virtual async Task<List<TDto>> GetListAsync<TDto>(TypeAdapterConfig? cnf = null)
+        {
+            return await GetListAsync<TDto>(Repository.GetAllAsQuery(), cnf);
+        }
+
+        public virtual async Task<List<TDto>> GetListAsync<TDto>(IQueryable<TEntity> query, TypeAdapterConfig? cnf = null)
         {
             cnf = GetConfig(cnf);
 
-            var entity = await Repository.GetByIdAsync(id);
+            return await query
+                .ProjectToType<TDto>(cnf)
+                .ToListAsync();
+        }
+
+
+        public virtual async Task<TDto?> GetByIdAsync<TDto>(TKey id, TypeAdapterConfig? cnf = null)
+        {
+            return await GetByIdAsync<TDto>(id, Repository.GetAllAsQuery(), cnf);
+        }
+
+        public virtual async Task<TDto?> GetByIdAsync<TDto>(TKey id, IQueryable<TEntity> query,
+            TypeAdapterConfig? cnf = null)
+        {
+            cnf = GetConfig(cnf);
+
+            var entity = await Repository.GetByIdAsync(id, query);
             CheckEntity(entity);
 
             return entity.Adapt<TDto>(cnf);

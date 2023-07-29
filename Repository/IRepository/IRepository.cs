@@ -10,6 +10,8 @@ namespace Repository.IRepository
 
         Task<TEntity?> GetByIdAsync(TKey id);
 
+        Task<TEntity?> GetByIdAsync(TKey id, IQueryable<TEntity> query);
+
         Task AddAsync(TEntity entity);
 
         void Update(TEntity entity);

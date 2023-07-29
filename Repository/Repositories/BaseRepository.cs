@@ -10,38 +10,43 @@ namespace Repository.Repositories
         where TKey : IEquatable<TKey>
         where TEntity : class, IEntity<TKey>
     {
-        private readonly ApplicationDbContext _context;
-        private readonly DbSet<TEntity> _entities;
+        protected readonly ApplicationDbContext Context;
+        protected readonly DbSet<TEntity> Entities;
 
         public BaseRepository(ApplicationDbContext context)
         {
-            _context = context;
-            _entities = context.Set<TEntity>();
+            Context = context;
+            Entities = context.Set<TEntity>();
         }
 
         public IQueryable<TEntity> GetAllAsQuery()
         {
-            return _entities.AsQueryable();
+            return Entities.AsQueryable();
         }
 
         public async Task<TEntity?> GetByIdAsync(TKey id)
         {
-            return await _entities.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            return await GetByIdAsync(id, Entities);
+        }
+
+        public async Task<TEntity?> GetByIdAsync(TKey id, IQueryable<TEntity> query)
+        {
+            return await query.FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         public async Task AddAsync(TEntity entity)
         {
-            await _entities.AddAsync(entity);
+            await Entities.AddAsync(entity);
         }
 
         public void Update(TEntity entity)
         {
-            _entities.Update(entity);
+            Entities.Update(entity);
         }
 
         public void Delete(TEntity entity)
         {
-            _entities.Remove(entity);
+            Entities.Remove(entity);
         }
 
         public void Remove(TEntity entity)
@@ -51,12 +56,12 @@ namespace Repository.Repositories
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            _entities.RemoveRange(entities);
+            Entities.RemoveRange(entities);
         }
 
         public async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
     }
 }

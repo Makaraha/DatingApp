@@ -1,10 +1,8 @@
 ﻿using Common.Exceptions.ServerExceptions;
 using Common.Interfaces;
 using Domain.Entities.Identity;
-using Domain.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
-using Services.Services;
 
 namespace Services.IdentityServices
 {

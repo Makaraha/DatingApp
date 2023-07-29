@@ -8,7 +8,13 @@ namespace Services.IService
         where TKey : IEquatable<TKey>
         where TEntity : class, IEntity<TKey>
     {
+        Task<List<TDto>> GetListAsync<TDto>(TypeAdapterConfig? cnf = null);
+
+        Task<List<TDto>> GetListAsync<TDto>(IQueryable<TEntity> query, TypeAdapterConfig? cnf = null);
+
         Task<TDto?> GetByIdAsync<TDto>(TKey id, TypeAdapterConfig? cnf = null);
+
+        Task<TDto?> GetByIdAsync<TDto>(TKey id, IQueryable<TEntity> query, TypeAdapterConfig? cnf = null);
 
         Task<TKey> AddAsync<TDto>(TDto dto, TypeAdapterConfig? cnf = null);
 
