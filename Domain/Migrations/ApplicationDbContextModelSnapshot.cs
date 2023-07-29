@@ -141,7 +141,7 @@ namespace Domain.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "9c2ee06d-98c1-4218-a7bb-637ca564f2e7",
+                            ConcurrencyStamp = "f913e748-fcc4-4624-b329-588cb5350dec",
                             CreatedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
                             LastModifiedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -266,10 +266,10 @@ namespace Domain.Migrations
                             About = "",
                             AccessFailedCount = 0,
                             City = "adminLand",
-                            ConcurrencyStamp = "57d5f05c-f56c-44bc-a2ed-4605da862dd2",
+                            ConcurrencyStamp = "1f5b18bf-369e-4679-81c7-44bb01b89395",
                             CreatedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin",
+                            Email = "admin@admin.com",
                             EmailConfirmed = false,
                             FirstName = "",
                             GenderId = 1,
@@ -277,9 +277,9 @@ namespace Domain.Migrations
                             LastModifiedDateUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN",
+                            NormalizedEmail = "admin@admin.com",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN04s1l7ofidpdgb+J9LfG46KdKqgxbF4dw7QsP7o9ihyxHw6/CYk2GBf1B4W2jbZQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMKI8/ToOqwYJueywNnhXakAKaOLHOS0x29Q5nm1Y8zuTX9o+HZMLjhZEos3ve+FUA==",
                             PhoneNumberConfirmed = false,
                             SearchingGenderId = 1,
                             TwoFactorEnabled = false,
@@ -297,18 +297,21 @@ namespace Domain.Migrations
 
                     b.Property<string>("CultureName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
 
-                    b.Property<int?>("GenderId")
+                    b.Property<int>("GenderId")
                         .HasColumnType("int");
 
                     b.Property<string>("LocalizedName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GenderId");
+                    b.HasIndex("GenderId", "CultureName")
+                        .IsUnique();
 
                     b.ToTable("GenderTranslations");
                 });
@@ -444,9 +447,13 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.Translations.GenderTranslation", b =>
                 {
-                    b.HasOne("Domain.Entities.Gender", null)
+                    b.HasOne("Domain.Entities.Gender", "Gender")
                         .WithMany("Translations")
-                        .HasForeignKey("GenderId");
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

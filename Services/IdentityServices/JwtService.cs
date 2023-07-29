@@ -32,13 +32,14 @@ namespace Services.IdentityServices
         public async Task<JwtTokens> AuthenticateByEmail(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            var roles = await _userManager.GetRolesAsync(user);
             CheckUser(user);
 
             var result = await _userManager.CheckPasswordAsync(user, password);
             if (!result)
                 throw new BadRequestException("Wrong login or password");
 
-            var tokens = GenerateJwt(user);
+            var tokens = GenerateJwt(user, roles);
             await SaveRefreshTokenAsync(tokens.RefreshToken, user);
 
             return tokens;
@@ -58,7 +59,8 @@ namespace Services.IdentityServices
                 throw new BadRequestException("Refresh token not found. Try to sign in again");
 
             var user = await _userManager.FindByNameAsync(userName);
-            var newTokens = GenerateJwt(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var newTokens = GenerateJwt(user, roles);
             await SaveRefreshTokenAsync(newTokens.RefreshToken, user);
 
             return newTokens;
@@ -83,11 +85,11 @@ namespace Services.IdentityServices
             await _refreshTokenRepository.SaveChangesAsync();
         }
 
-        private JwtTokens GenerateJwt(User user)
+        private JwtTokens GenerateJwt(User user, IEnumerable<string> roles)
         {
             return new JwtTokens()
             {
-                AccessToken = GenerateAccessToken(user),
+                AccessToken = GenerateAccessToken(user, roles),
                 RefreshToken = GenerateRefreshToken()
             };
         }
@@ -118,7 +120,7 @@ namespace Services.IdentityServices
             return principal;
         }
 
-        private string GenerateAccessToken(User user)
+        private string GenerateAccessToken(User user, IEnumerable<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);
@@ -128,7 +130,8 @@ namespace Services.IdentityServices
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role,  String.Join(',', roles))
                 }),
 
                 Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["JWT:AcessTokenLifeTimeInMinutes"])),

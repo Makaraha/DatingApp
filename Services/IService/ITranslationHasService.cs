@@ -7,5 +7,7 @@ namespace Services.IService
         where TEntity : class, IEntity<int>
     {
         Task AddOrEditTranslation<TDto>(TDto dto, int entityId, TypeAdapterConfig? cnf = null);
+
+        Task<List<TDto>> GetTranslations<TDto>(int entityId);
     }
 }

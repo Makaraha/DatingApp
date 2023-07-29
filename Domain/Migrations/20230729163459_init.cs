@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -137,9 +137,9 @@ namespace Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GenderId = table.Column<int>(type: "int", nullable: true),
-                    LocalizedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CultureName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    GenderId = table.Column<int>(type: "int", nullable: false),
+                    LocalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CultureName = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,7 +148,8 @@ namespace Domain.Migrations
                         name: "FK_GenderTranslations_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,7 +240,7 @@ namespace Domain.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "CreatedDateUtc", "IsDeleted", "LastModifiedDateUtc", "Name", "NormalizedName" },
-                values: new object[] { 1, "9c2ee06d-98c1-4218-a7bb-637ca564f2e7", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin", "ADMIN" });
+                values: new object[] { 1, "f913e748-fcc4-4624-b329-588cb5350dec", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "Genders",
@@ -253,7 +254,7 @@ namespace Domain.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "About", "AccessFailedCount", "City", "ConcurrencyStamp", "CreatedDateUtc", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "GenderId", "IsDeleted", "LastModifiedDateUtc", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SearchingGenderId", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, "", 0, "adminLand", "57d5f05c-f56c-44bc-a2ed-4605da862dd2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin", false, "", 1, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", false, null, "ADMIN", "ADMIN", "AQAAAAEAACcQAAAAEN04s1l7ofidpdgb+J9LfG46KdKqgxbF4dw7QsP7o9ihyxHw6/CYk2GBf1B4W2jbZQ==", null, false, 1, null, false, "admin" });
+                values: new object[] { 1, "", 0, "adminLand", "1f5b18bf-369e-4679-81c7-44bb01b89395", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@admin.com", false, "", 1, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", false, null, "admin@admin.com", "ADMIN", "AQAAAAEAACcQAAAAEMKI8/ToOqwYJueywNnhXakAKaOLHOS0x29Q5nm1Y8zuTX9o+HZMLjhZEos3ve+FUA==", null, false, 1, null, false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -310,9 +311,10 @@ namespace Domain.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GenderTranslations_GenderId",
+                name: "IX_GenderTranslations_GenderId_CultureName",
                 table: "GenderTranslations",
-                column: "GenderId");
+                columns: new[] { "GenderId", "CultureName" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserName",

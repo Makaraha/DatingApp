@@ -1,4 +1,6 @@
-﻿using Domain.Entities.Translations.Base;
+﻿using System.Diagnostics.CodeAnalysis;
+using Common.Exceptions.ServerExceptions;
+using Domain.Entities.Translations.Base;
 using Domain.Entities.Translations.ITranslation;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +42,15 @@ namespace Services.Services
                 _translationHasRepository.AddTranslation(translation, entity);
 
             await Repository.SaveChangesAsync();
+        }
+
+        public async Task<List<TDto>> GetTranslations<TDto>(int entityId)
+        {
+            var translations = await _translationHasRepository.GetTranslationsAsync(entityId);
+            if (translations == null)
+                throw new NotFoundException($"Entity with id {entityId} does not exist");
+
+            return translations.Select(x => x.Adapt<TDto>()).ToList();
         }
     }
 }

@@ -19,5 +19,15 @@ namespace Repository.Repositories
         {
             entity.Translations.Add(translation);
         }
+
+        public virtual async Task<IEnumerable<TTranslation>?> GetTranslationsAsync(int entityId)
+        {
+            var translations = await Entities
+                .Include(x => x.Translations)
+                .Select(x => x.Translations)
+                .FirstOrDefaultAsync();
+            
+            return translations;
+        }
     }
 }

@@ -35,6 +35,7 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<CultureMiddleware>();
 
 app.MapControllers();
 

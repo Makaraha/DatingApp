@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Text.Json;
-using Azure;
-using Common.Exceptions.ServerExceptions;
+﻿using Common.Exceptions.ServerExceptions;
 
 namespace DatingApp.Middlewares
 {
