@@ -1,18 +1,18 @@
 ﻿using Domain.EF.Context;
+using Domain.Entities;
 using Domain.Entities.Identity;
+using Domain.Entities.Translations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Services.IdentityServices;
-using System.Text;
-using Domain.Entities;
-using Domain.Entities.Translations;
 using Microsoft.OpenApi.Models;
 using Repository.IRepository;
 using Repository.Repositories;
+using Services.IdentityServices;
 using Services.IdentityServices.Interfaces;
 using Services.IService;
 using Services.Services;
+using System.Text;
 
 namespace DatingApp.Extensions
 {
@@ -21,7 +21,12 @@ namespace DatingApp.Extensions
         public static void RegisterConnectionString(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddDbContext<ApplicationDbContext>(x =>
-                x.UseSqlServer(configuration.GetConnectionString("Default")));
+            {
+                x.UseSqlServer(configuration.GetConnectionString("Default"));
+#if DEBUG
+                x.LogTo(Console.WriteLine, LogLevel.Information);
+#endif
+            });
         }
 
         public static void RegisterIdentity(this IServiceCollection serviceCollection)

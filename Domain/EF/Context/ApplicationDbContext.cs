@@ -9,7 +9,10 @@ namespace Domain.EF.Context
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            Database.Migrate();
+        }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 

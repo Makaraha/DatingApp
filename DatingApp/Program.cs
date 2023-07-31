@@ -33,6 +33,7 @@ app.UseMiddleware<ExceptionHandler>();
 app.UseHttpsRedirection();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
+app.UseMiddleware<InfinityTokenMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<CultureMiddleware>();
