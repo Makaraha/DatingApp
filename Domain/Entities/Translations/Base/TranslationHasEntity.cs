@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Domain.Infrastructure;
 
 namespace Domain.Entities.Translations.Base
 {
@@ -7,12 +8,7 @@ namespace Domain.Entities.Translations.Base
     {
         public string Name { get; set; }
 
-        public HashSet<TTranslation> Translations { get; set; } = new HashSet<TTranslation>();
-
-        public string GetLocalizedName()
-        {
-            return Translations?.FirstOrDefault(x => x.CultureName == CultureInfo.CurrentCulture.Name)
-                ?.LocalizedName ?? Name;
-        }
+        public TranslationsCollection<TTranslation> Translations { get; set; } 
+            = new TranslationsCollection<TTranslation>();
     }
 }

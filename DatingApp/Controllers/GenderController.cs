@@ -23,7 +23,7 @@ namespace DatingApp.Controllers
         {
             var config = new TypeAdapterConfig();
             config.NewConfig<Gender, GenderDto.Response.ById>()
-                .Map(dest => dest.Name, src => src.GetLocalizedName());
+                .Map(dest => dest.Name, src => src.Translations.GetLocalizedName() ?? src.Name);
 
             return await _genderService.GetByIdAsync<GenderDto.Response.ById>(id, config);
         }
@@ -34,7 +34,7 @@ namespace DatingApp.Controllers
         {
             var config = new TypeAdapterConfig();
             config.NewConfig<Gender, GenderDto.Response.List>()
-                .Map(dest => dest.Name, src => src.GetLocalizedName());
+                .Map(dest => dest.Name, src => src.Translations.GetLocalizedName() ?? src.Name);
 
             return await _genderService.GetListAsync<GenderDto.Response.List>(config);
         }
