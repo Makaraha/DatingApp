@@ -48,6 +48,9 @@ namespace DatingApp.Extensions
         {
             serviceCollection.AddTransient<IRepository<RefreshToken, int>, BaseRepository<RefreshToken, int>>();
             serviceCollection.AddTransient<ITranslationHasRepository<Gender, GenderTranslation>, TranslationHasRepository<Gender, GenderTranslation>>();
+            serviceCollection
+                .AddTransient<ITranslationHasRepository<Interest, InterestTranslation>,
+                    TranslationHasRepository<Interest, InterestTranslation>>();
         }
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
@@ -55,6 +58,8 @@ namespace DatingApp.Extensions
             serviceCollection.AddTransient<IUserService<User, int>, UserService>();
             serviceCollection.AddTransient<IJwtService, JwtService>();
             serviceCollection.AddTransient<ITranslationHasService<Gender>, TranslationHasService<Gender, GenderTranslation>>();
+            serviceCollection
+                .AddTransient<ITranslationHasService<Interest>, TranslationHasService<Interest, InterestTranslation>>();
         }
 
         public static void RegisterJWT(this IServiceCollection serviceCollection, IConfiguration configuration)
@@ -109,6 +114,11 @@ namespace DatingApp.Extensions
                         new string[]{}
                     }
                 });
+            });
+
+            serviceCollection.ConfigureSwaggerGen(x =>
+            {
+                x.CustomSchemaIds(x => x.FullName);
             });
         }
     }

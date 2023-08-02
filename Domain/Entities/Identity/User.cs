@@ -28,5 +28,7 @@ namespace Domain.Entities.Identity
         public Gender Gender { get; set; }
 
         public Gender SearchingGender { get; set; }
+
+        public ICollection<Interest> Interests { get; set; }
     }
 }

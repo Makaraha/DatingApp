@@ -2,13 +2,13 @@
 
 namespace DTOs
 {
-    public static class GenderDto
+    public static class InterestDto
     {
         public static class Request
         {
             public class Add
             {
-                [MaxLength(64), Required]
+                [MaxLength(256), Required]
                 public string Name { get; set; }
             }
 
@@ -29,7 +29,7 @@ namespace DTOs
                 [MaxLength(16), Required]
                 public string CultureName { get; set; }
 
-                [MaxLength(64), Required]
+                [MaxLength(256), Required]
                 public string LocalizedName { get; set; }
             }
         }

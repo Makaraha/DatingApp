@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Domain.Infrastructure;
+﻿using Domain.Infrastructure;
 
 namespace Domain.Entities.Translations.Base
 {

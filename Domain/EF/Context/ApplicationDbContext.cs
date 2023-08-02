@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using System.Security.Cryptography.X509Certificates;
+using Domain.Entities;
 using Domain.Entities.Identity;
 using Domain.Entities.Translations;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,6 @@ namespace Domain.EF.Context
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            Database.Migrate();
         }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -31,6 +31,8 @@ namespace Domain.EF.Context
             builder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
             builder.Entity<RefreshToken>().HasQueryFilter(x => !x.IsDeleted);
             builder.Entity<Gender>().HasQueryFilter(x => !x.IsDeleted);
+            builder.Entity<Interest>().HasQueryFilter(x => !x.IsDeleted);
+
 
             builder.Entity<RefreshToken>()
                 .HasIndex(x => x.UserName);
