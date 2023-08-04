@@ -51,6 +51,7 @@ namespace DatingApp.Extensions
             serviceCollection
                 .AddTransient<ITranslationHasRepository<Interest, InterestTranslation>,
                     TranslationHasRepository<Interest, InterestTranslation>>();
+            serviceCollection.AddTransient<IRepository<User, int>, BaseRepository<User, int>>();
         }
 
         public static void RegisterServices(this IServiceCollection serviceCollection)
@@ -90,6 +91,7 @@ namespace DatingApp.Extensions
         {
             serviceCollection.AddSwaggerGen(x =>
             {
+                x.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{nameof(DatingApp)}.xml"));
                 x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -118,7 +120,7 @@ namespace DatingApp.Extensions
 
             serviceCollection.ConfigureSwaggerGen(x =>
             {
-                x.CustomSchemaIds(x => x.FullName);
+                x.CustomSchemaIds(x => x.FullName.Replace('+', '.'));
             });
         }
     }

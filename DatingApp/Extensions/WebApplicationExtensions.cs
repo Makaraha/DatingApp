@@ -1,5 +1,6 @@
 ﻿using Domain.EF.Context;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace DatingApp.Extensions
 {

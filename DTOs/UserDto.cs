@@ -47,11 +47,32 @@ namespace DTOs
                 public string About { get; init; }
 
                 public string City { get; init; }
+
+                public GenderDto Gender { get; init; }
+
+                public GenderDto SearchingGender { get; init; }
+
+                public IEnumerable<InterestDto> Interests { get; init; }
+
+                public DateTime DateOfBirth { get; init; }
             }
         }
 
         public static class Request
         {
+            public class List
+            {
+                public int? GenderId { get; init; }
+
+                public int? SearchingGenderId { get; init; }
+
+                public IEnumerable<int> InterestIds { get; init; }
+
+                public int? AgeMoreThan { get; init; }
+
+                public int? AgeLessThan { get; init; }
+            }
+
             public class Add
             {
                 [Required, MaxLength(32)]
@@ -133,8 +154,16 @@ namespace DTOs
 
         public class GenderDto
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
+            public int Id { get; init; }
+
+            public string Name { get; init; }
+        }
+
+        public class InterestDto
+        {
+            public int Id { get; init; }
+
+            public string Name { get; init; }
         }
     }
 }
