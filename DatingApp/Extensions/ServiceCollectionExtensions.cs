@@ -13,6 +13,8 @@ using Services.IdentityServices.Interfaces;
 using Services.IService;
 using Services.Services;
 using System.Text;
+using Services.ManyToManyServices;
+using Services.ManyToManyServices.Interfaces;
 
 namespace DatingApp.Extensions
 {
@@ -51,6 +53,7 @@ namespace DatingApp.Extensions
             serviceCollection
                 .AddTransient<ITranslationHasRepository<Interest, InterestTranslation>,
                     TranslationHasRepository<Interest, InterestTranslation>>();
+            serviceCollection.AddTransient<IRepository<Interest, int>, BaseRepository<Interest, int>>();
             serviceCollection.AddTransient<IRepository<User, int>, BaseRepository<User, int>>();
         }
 
@@ -61,6 +64,7 @@ namespace DatingApp.Extensions
             serviceCollection.AddTransient<ITranslationHasService<Gender>, TranslationHasService<Gender, GenderTranslation>>();
             serviceCollection
                 .AddTransient<ITranslationHasService<Interest>, TranslationHasService<Interest, InterestTranslation>>();
+            serviceCollection.AddTransient<IUsersInterestsService, UserInterestsService>();
         }
 
         public static void RegisterJWT(this IServiceCollection serviceCollection, IConfiguration configuration)

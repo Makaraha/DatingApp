@@ -1,12 +1,13 @@
 ﻿using Common.Exceptions.ServerExceptions;
 using Common.Interfaces;
+using Domain.EF.Context;
 using Domain.Entities.Identity;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository.IRepository;
-using Repository.Repositories;
 using Services.IdentityServices.Interfaces;
+using Services.ManyToManyServices.Interfaces;
 
 namespace Services.IdentityServices
 {
@@ -15,10 +16,13 @@ namespace Services.IdentityServices
         private readonly UserManager<User> _userManager;
         private readonly IRepository<User, int> _userRepository;
 
-        public UserService(UserManager<User> userManager, IRepository<User, int> userRepository)
+        private readonly IUsersInterestsService _usersInterestsService;
+
+        public UserService(UserManager<User> userManager, IRepository<User, int> userRepository, IUsersInterestsService usersInterestsService)
         {
             _userManager = userManager;
             _userRepository = userRepository;
+            _usersInterestsService = usersInterestsService;
         }
 
         public async Task<List<TDto>> GetUsersAsync<TDto>(int? genderId, int? searchingGenderId, IEnumerable<int>? interests, int? ageLessThan,
@@ -63,7 +67,7 @@ namespace Services.IdentityServices
 
             var user = dto.Adapt<User>(cnf);
 
-            BeforeAdd(user);
+            await BeforeAddAsync(user);
 
             CheckIdentityResult(await _userManager.CreateAsync(user));
             await SetPasswordOrDeleteAsync(user, password);
@@ -125,8 +129,9 @@ namespace Services.IdentityServices
                 throw new NotFoundException($"Entity {nameof(User)} not found.");
         }
 
-        protected void BeforeAdd(User entity)
+        protected async Task BeforeAddAsync(User entity)
         {
+            await _usersInterestsService.AttachInterestsToUserAsync(entity, entity.Interests.Select(x => x.Id).ToHashSet());
             entity.CreatedDateUtc = DateTime.UtcNow;
         }
 

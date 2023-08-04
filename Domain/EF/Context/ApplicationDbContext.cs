@@ -20,6 +20,10 @@ namespace Domain.EF.Context
 
         public DbSet<GenderTranslation> GenderTranslations { get; set; }
 
+        public DbSet<Interest> Interests { get; set; }
+
+        public DbSet<InterestTranslation> InterestTranslations { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

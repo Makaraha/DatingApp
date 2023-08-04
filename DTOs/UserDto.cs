@@ -90,7 +90,7 @@ namespace DTOs
 
                 public DateTime DateOfBirth { get; init; }
 
-                public IEnumerable<InterestInDto> Interests { get; init; }
+                public HashSet<InterestInDto> Interests { get; init; }
             }
 
             public class Update : IIdHas<int>
@@ -117,7 +117,7 @@ namespace DTOs
 
                 public DateTime DateOfBirth { get; init; }
 
-                public IEnumerable<InterestInDto> Interests { get; init; }
+                public HashSet<InterestInDto> Interests { get; init; }
             }
 
             public class UpdateMe
