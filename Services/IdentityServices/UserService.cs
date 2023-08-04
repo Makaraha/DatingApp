@@ -80,11 +80,14 @@ namespace Services.IdentityServices
         {
             cnf = GetConfig(cnf);
 
-            var user = await _userManager.FindByIdAsync(dto.Id.ToString());
+            var query = _userRepository.GetAllAsQuery()
+                .Include(x => x.Interests);
+            var user = await _userRepository.GetByIdAsync(dto.Id, query);
             CheckEntity(user);
 
             dto.Adapt(user, cnf);
-            BeforeUpdate(user);
+            await BeforeUpdateAsync(user);
+
             CheckIdentityResult(await _userManager.UpdateAsync(user));
         }
 
@@ -131,12 +134,14 @@ namespace Services.IdentityServices
 
         protected async Task BeforeAddAsync(User entity)
         {
-            await _usersInterestsService.AttachInterestsToUserAsync(entity, entity.Interests.Select(x => x.Id).ToHashSet());
+            await _usersInterestsService.AddInterestsToUserAsync(entity, entity.Interests.Select(x => x.Id).ToHashSet());
             entity.CreatedDateUtc = DateTime.UtcNow;
         }
 
-        protected void BeforeUpdate(User entity)
+        protected async Task BeforeUpdateAsync(User entity)
         {
+            await _usersInterestsService.UpdateInterestsForUserAsync(entity,
+                entity.Interests.Select(x => x.Id).ToHashSet());
             entity.LastModifiedDateUtc = DateTime.UtcNow;
         }
 
