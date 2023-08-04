@@ -60,19 +60,6 @@ namespace DTOs
 
         public static class Request
         {
-            public class List
-            {
-                public int? GenderId { get; init; }
-
-                public int? SearchingGenderId { get; init; }
-
-                public IEnumerable<int> InterestIds { get; init; }
-
-                public int? AgeMoreThan { get; init; }
-
-                public int? AgeLessThan { get; init; }
-            }
-
             public class Add
             {
                 [Required, MaxLength(32)]
@@ -102,6 +89,8 @@ namespace DTOs
                 public string About { get; init; }
 
                 public DateTime DateOfBirth { get; init; }
+
+                public IEnumerable<InterestInDto> Interests { get; init; }
             }
 
             public class Update : IIdHas<int>
@@ -127,6 +116,8 @@ namespace DTOs
                 public string About { get; init; }
 
                 public DateTime DateOfBirth { get; init; }
+
+                public IEnumerable<InterestInDto> Interests { get; init; }
             }
 
             public class UpdateMe
@@ -164,6 +155,11 @@ namespace DTOs
             public int Id { get; init; }
 
             public string Name { get; init; }
+        }
+
+        public class InterestInDto
+        {
+            public int Id { get; set; }
         }
     }
 }

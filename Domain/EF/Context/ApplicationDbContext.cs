@@ -60,6 +60,7 @@ namespace Domain.EF.Context
         {
             SeedGenders(builder);
             SeedIdentity(builder);
+            SeedInterests(builder);
         }
 
         private void SeedIdentity(ModelBuilder builder)
@@ -104,13 +105,34 @@ namespace Domain.EF.Context
             builder.Entity<Gender>().HasData(new Gender()
             {
                 Id = 1,
-                Name = "Male"
+                Name = "Белый цисгендерный мужчина"
             });
 
             builder.Entity<Gender>().HasData(new Gender()
             {
                 Id = 2,
-                Name = "Female"
+                Name = "Посудомойка"
+            });
+        }
+
+        private void SeedInterests(ModelBuilder builder)
+        {
+            builder.Entity<Interest>().HasData(new Interest()
+            {
+                Id = 1,
+                Name = "Потные мужики"
+            });
+
+            builder.Entity<Interest>().HasData(new Interest()
+            {
+                Id = 2,
+                Name = "Голые мужики"
+            });
+
+            builder.Entity<Interest>().HasData(new Interest()
+            {
+                Id = 3,
+                Name = "Голые потные мужики"
             });
         }
     }

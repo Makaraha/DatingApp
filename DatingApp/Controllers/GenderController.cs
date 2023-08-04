@@ -19,7 +19,7 @@ namespace DatingApp.Controllers
 
         [AllowAnonymous]
         [HttpGet, Route("gender/{id}")]
-        public async Task<GenderDto.Response.ById> GetByIdAsync(int id, string culture = "ru-RU")
+        public async Task<GenderDto.Response.ById> GetByIdAsync(int id, string? culture = "ru-RU")
         {
             var config = new TypeAdapterConfig();
             config.NewConfig<Gender, GenderDto.Response.ById>()
@@ -30,7 +30,7 @@ namespace DatingApp.Controllers
 
         [AllowAnonymous]
         [HttpGet, Route("genders")]
-        public async Task<List<GenderDto.Response.List>> GetListAsync(string culture = "ru-RU")
+        public async Task<List<GenderDto.Response.List>> GetListAsync(string? culture = "ru-RU")
         {
             var config = new TypeAdapterConfig();
             config.NewConfig<Gender, GenderDto.Response.List>()

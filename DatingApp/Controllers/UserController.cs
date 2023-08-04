@@ -24,7 +24,7 @@ namespace DatingApp.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpGet, Route("users"), AllowAnonymous]
-        public async Task<List<UserDto.Response.List>> GetUsersAsync([FromQuery]IEnumerable<int>? interests, int? genderId, int? searchingGenderId, int? ageMoreThan, int? ageLessThan, string culture = "ru-RU")
+        public async Task<List<UserDto.Response.List>> GetUsersAsync([FromQuery]IEnumerable<int>? interests, int? genderId, int? searchingGenderId, int? ageMoreThan, int? ageLessThan, string? culture = "ru-RU")
         {
             var cnf = new TypeAdapterConfig();
             cnf.NewConfig<Gender, UserDto.GenderDto>()
@@ -42,7 +42,7 @@ namespace DatingApp.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet, Route("user"), AllowAnonymous]
-        public async Task<UserDto.Response.ById> GetUserAsync(int id, string culture = "ru-RU")
+        public async Task<UserDto.Response.ById> GetUserAsync(int id, string? culture = "ru-RU")
         {
             return await _userService.GetByIdAsync<UserDto.Response.ById>(id);
         }
