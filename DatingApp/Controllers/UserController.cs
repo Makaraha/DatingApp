@@ -44,7 +44,13 @@ namespace DatingApp.Controllers
         [HttpGet, Route("user"), AllowAnonymous]
         public async Task<UserDto.Response.ById> GetUserAsync(int id, string? culture = "ru-RU")
         {
-            return await _userService.GetByIdAsync<UserDto.Response.ById>(id);
+            var cnf = new TypeAdapterConfig();
+            cnf.NewConfig<Gender, UserDto.GenderDto>()
+                .Map(dest => dest.Name, src => src.Translations.GetLocalizedName() ?? src.Name);
+            cnf.NewConfig<Interest, UserDto.InterestDto>()
+                .Map(dest => dest.Name, src => src.Translations.GetLocalizedName() ?? src.Name);
+
+            return await _userService.GetByIdAsync<UserDto.Response.ById>(id, cnf);
         }
 
         /// <summary>
