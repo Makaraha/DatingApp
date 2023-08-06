@@ -8,7 +8,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>C:\Users\Makaraha\source\repos\DatingApp\DatingApp\bin\Debug\net6.0\DatingApp.xml</DocumentationFile>
+    <DocumentationFile>.\Debug\net6.0\DatingApp.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
